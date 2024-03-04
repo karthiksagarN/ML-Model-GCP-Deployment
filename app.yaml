@@ -1,0 +1,54 @@
+runtime: python311
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: firstdeploy
+  namespace: '49212051530'
+  selfLink: /apis/serving.knative.dev/v1/namespaces/49212051530/services/firstdeploy
+  uid: a13b2fb8-65fc-4f5a-baaf-a78a5e9b081d
+  resourceVersion: AAYSsyx4U/g
+  generation: 4
+  creationTimestamp: '2024-03-02T00:33:02.818929Z'
+  labels:
+    cloud.googleapis.com/location: us-central1
+  annotations:
+    run.googleapis.com/client-name: cloud-console
+    serving.knative.dev/creator: karthik.sagarn@gmail.com
+    serving.knative.dev/lastModifier: karthik.sagarn@gmail.com
+    run.googleapis.com/operation-id: 245870e4-00b6-403e-bd61-648b678abefa
+    run.googleapis.com/ingress: all
+    run.googleapis.com/ingress-status: all
+spec:
+  template:
+    metadata:
+      labels:
+        client.knative.dev/nonce: 9476c5e2-8751-4680-bfe3-c456b70acdad
+        run.googleapis.com/startupProbeType: Default
+      annotations:
+        run.googleapis.com/client-name: cloud-console
+        autoscaling.knative.dev/maxScale: '5'
+        run.googleapis.com/startup-cpu-boost: 'true'
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      serviceAccountName: 49212051530-compute@developer.gserviceaccount.com
+      containers:
+      - name: submit-1
+        image: >-
+          gcr.io/clear-destiny-289113/submit@sha256:01c53008ebb434a227c5b3cb6fc28c5eff9f7245063e52785d4c0390f24d494d
+        ports:
+        - name: h2c
+          containerPort: 8080
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 4Gi
+        startupProbe:
+          timeoutSeconds: 240
+          periodSeconds: 240
+          failureThreshold: 1
+          tcpSocket:
+            port: 8080
+  traffic:
+  - revisionName: firstdeploy-00002-59w
+    percent: 100
